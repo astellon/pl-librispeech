@@ -30,10 +30,16 @@ RUN poetry config virtualenvs.create false && poetry install --no-dev
 
 FROM debian:bullseye-slim as runner
 
+RUN apt-get update && \
+    apt-get install -y git && \
+    rm -rf /var/lib/apt/lists/*
+
 ENV PYENV_ROOT=/opt/pyenv
 ENV POETRY_HOME=/opt/poetry
 ENV PATH=${POETRY_HOME}/bin:${PYENV_ROOT}/bin:${PYENV_ROOT}/shims:${PATH}
 
 COPY --from=setup /opt /opt
 
-CMD [ "python" ]
+COPY entrypoint.sh entrypoint.sh
+
+ENTRYPOINT [ "entrypoint.sh" ]

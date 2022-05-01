@@ -37,7 +37,7 @@ def transform(data, crop_length=int(1.5 * 16000)):
 def main():
     # url = "data/webdataset/shards/librespeech-train-{000000..000058}.tar"
     # url = "data/webdataset/tar/librespeech-train.tar"
-    url = "https://storage.cloud.google.com/librispeech-webdataset/librespeech-train-{000000..000058}.tar"
+    url = "gs://librispeech-webdataset/librespeech-train-{000000..000058}.tar"
 
     dataset = webdataset.WebDataset(url, shardshuffle=True) \
         .shuffle(1000) \
