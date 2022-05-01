@@ -1,0 +1,7 @@
+# build arguments
+repository: us-central1-docker.pkg.dev/computing-cluster/containers
+tag: webdataset-speech-pytorch
+
+# run arguments
+project: computing-cluster
+zone: us-central1

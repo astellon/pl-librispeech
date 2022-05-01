@@ -1,0 +1,6 @@
+.*
+data/*
+
+!.gitkeep
+!.gitignore
+!.dockerignore
