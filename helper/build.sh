@@ -1,6 +1,0 @@
-#!/bin/bash -e
-
-. .env
-
-docker build . -t ${GCLOUD_REGION}-docker.pkg.dev/${GCLOUD_PROJECT}/${GCLOUD_COTAINER_REPOSITORY}/${GCLOUD_COTAINER_TAG}
-docker push ${GCLOUD_REGION}-docker.pkg.dev/${GCLOUD_PROJECT}/${GCLOUD_COTAINER_REPOSITORY}/${GCLOUD_COTAINER_TAG}

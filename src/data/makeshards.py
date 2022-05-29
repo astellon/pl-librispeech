@@ -6,6 +6,10 @@ import torchaudio
 import webdataset
 
 
+def basename(path):
+    return os.path.splitext(os.path.basename(path))[0]
+
+
 class LibriSpeech(torch.utils.data.Dataset):
     def __init__(self, path: str, split: str = 'train') -> None:
         self.fn = []
@@ -42,6 +46,12 @@ class LibriSpeech(torch.utils.data.Dataset):
 
                 self.text.append(text)
 
+        unique_speakers = sorted(set(self.spk))
+        num_speakers = len(unique_speakers)
+
+        # original id to continuous id
+        self.speaker_id_remap = {unique_speakers[i]: i for i in range(num_speakers)}
+
     def __len__(self):
         return len(self.fn)
 
@@ -49,7 +59,8 @@ class LibriSpeech(torch.utils.data.Dataset):
         return (
             self.fn[index],
             self.text[index],
-            self.spk[index],
+            # remap into continuous id
+            self.speaker_id_remap[self.spk[index]],
             self.chap[index],
             self.uttr[index]
         )
@@ -72,7 +83,7 @@ def make_dataset(root, folder_in_archive='LibriSpeech', split='train', maxsize=2
                 data = f.read()
 
             sample = {
-                "__key__": f'{spk}-{chap}-{utter}',
+                "__key__": f'{basename(fn)}',
                 "waveform.flac": data,
                 "text.txt": text,
                 "speaker.id": spk,
@@ -82,9 +93,9 @@ def make_dataset(root, folder_in_archive='LibriSpeech', split='train', maxsize=2
 
 
 def main():
-    make_dataset('data', split='train')
-    make_dataset('data', split='dev')
-    make_dataset('data', split='test')
+    make_dataset('data/materials', split='train')
+    make_dataset('data/materials', split='dev')
+    make_dataset('data/materials', split='test')
 
 
 if __name__ == '__main__':

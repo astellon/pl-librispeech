@@ -3,6 +3,7 @@ import random
 import time
 
 import soundfile
+
 import torch
 import torchaudio
 import webdataset
@@ -12,10 +13,6 @@ from tqdm import tqdm
 
 def flac_handler_soundfile(b):
     return torch.from_numpy(soundfile.read(io.BytesIO(b))[0])
-
-
-def flac_handler_torchaudio(b):
-    return torchaudio.load(io.BytesIO(b))[0]
 
 
 def transform(data, crop_length=int(1.5 * 16000)):
@@ -35,9 +32,9 @@ def transform(data, crop_length=int(1.5 * 16000)):
 
 
 def main():
-    # url = "data/webdataset/shards/librespeech-train-{000000..000058}.tar"
+    url = "data/materials/webdataset/shards/librespeech-train-{000000..000058}.tar"
     # url = "data/webdataset/tar/librespeech-train.tar"
-    url = "gs://librispeech-webdataset/librespeech-train-{000000..000058}.tar"
+    # url = "gs://librispeech-webdataset/librespeech-train-{000000..000058}.tar"
 
     dataset = webdataset.WebDataset(url, shardshuffle=True) \
         .shuffle(1000) \
@@ -52,7 +49,7 @@ def main():
 
     count = 0
 
-    for data in tqdm(dataloader):
+    for i, data in tqdm(enumerate(dataloader)):
         waveform, speaker_id = data
         count += waveform.size(0)
 
