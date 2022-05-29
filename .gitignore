@@ -1,5 +1,7 @@
 .*
-data/*
+data/artifacts/checkpoints
+data/materials/LibriSpeech
+data/materials/webdataset
 
 !.gitkeep
 !.gitignore
