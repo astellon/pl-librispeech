@@ -46,7 +46,8 @@ def main():
     )
 
     # callbacks
-    checkpoint_callback = ModelCheckpoint(dirpath="data/artifacts/checkpoints", save_top_k=5, monitor="val_eer")
+    # checkpoint_callback = ModelCheckpoint(dirpath="data/artifacts/checkpoints", save_top_k=5, monitor="val_eer")
+    checkpoint_callback = ModelCheckpoint(dirpath="gs://ecapa-checkpoints", save_top_k=5, monitor="val_eer")
     lr_monitor = LearningRateMonitor(logging_interval='step')
 
     # logger
